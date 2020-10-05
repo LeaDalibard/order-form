@@ -9,7 +9,6 @@ error_reporting(E_ALL);
 //we are going to use session variables so we need to enable sessions
 session_start();
 
-// cookie variables to save user information
 //-----------------------------------Cookie setting
 
 $cookie_mail = "";
@@ -101,9 +100,6 @@ if (isset($_POST['streetnumber'])) {
 }
 
 
-
-
-
 //-----------------------------------Validation message
 
 $validationMessage = "";
@@ -139,7 +135,6 @@ function whatIsHappening()
 //your products with their price.
 
 
-
 $drinks = [
     ['name' => 'Cola', 'price' => 2],
     ['name' => 'Fanta', 'price' => 2],
@@ -155,18 +150,33 @@ $sandwichs = [
     ['name' => 'Club Salmon', 'price' => 5]
 ];
 
+$food = 1;
 
-$food=1;
-$food=$_GET['food'];
+if (isset ($_GET['food'])) {
+    $food = $_GET['food'];
+}
+
 $products = array();
 
-if($food==1){
-    $products =$sandwichs;
+if ($food == 1) {
+    $products = $sandwichs;
+} else {
+    $products = $drinks;
 }
-else{$products =$drinks;}
+
+//-----------------------------------Set session variable for products
+
+var_dump($products);
+//foreach ($products as $i => $product){
+//    if (isset ($_POST[$products[$i]])) {
+//        echo $_POST[$products['name']];
+//    }
+//}
+
+
+
 
 $totalValue = 0;
-
 
 
 require 'form-view.php';
