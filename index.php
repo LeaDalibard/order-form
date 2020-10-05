@@ -2,8 +2,22 @@
 //this line makes PHP behave in a more strict way
 declare(strict_types=1);
 
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 //we are going to use session variables so we need to enable sessions
 session_start();
+
+$cookie_name = "";
+$cookie_value = "";
+$cookie_mail = "";
+$cookie_street = "";
+$cookie_number = "";
+$cookie_city = "";
+$cookie_zipcode = "";
+
+setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day, will expire after 30 days
 
 function whatIsHappening() {
     echo '<h2>$_GET</h2>';
