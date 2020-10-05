@@ -35,11 +35,11 @@ if (isset($_COOKIE['cookie_city'])) {
 if (isset($_COOKIE['cookie_zipcode'])) {
     $cookie_zipcode = $_COOKIE['cookie_zipcode'];
 }
-print_r($_COOKIE);
-//whatIsHappening();
+
+
 //-----------------------------------Required fields
 
-$emailErr = $streetErr= $streetnumberErr= $cityErr =$zipcodeErr="";
+$emailErr = $streetErr = $streetnumberErr = $cityErr = $zipcodeErr = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["email"])) {
@@ -49,25 +49,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $emailErr = "";
     }
 
-    if (empty($_POST['street'])){
+    if (empty($_POST['street'])) {
         $streetErr = "Street is required";
     } else {
-        $cookie_street =$_POST['street'];
+        $cookie_street = $_POST['street'];
         $streetErr = "";
     }
-    if (empty($_POST['streetnumber'])){
+    if (empty($_POST['streetnumber'])) {
         $streetnumberErr = "Street number is required";
     } else {
         $cookie_number = $_POST['streetnumber'];
         $streetnumberErr = "";
     }
-    if (empty($_POST['city'])){
+    if (empty($_POST['city'])) {
         $cityErr = "City is required";
     } else {
         $cookie_city = $_POST['city'];
         $cityErr = "";
     }
-    if (empty($_POST['zipcode'])){
+    if (empty($_POST['zipcode'])) {
         $zipcodeErr = "Zipcode is required";
     } else {
         $cookie_zipcode = $_POST['zipcode'];
@@ -77,72 +77,96 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 //-----------------------------------Checking if the format is good
-$emailForm=$zipcodeForm=$streetnumberForm="";
+$emailForm = $zipcodeForm = $streetnumberForm = "";
 if (!filter_var($cookie_mail, FILTER_VALIDATE_EMAIL) && !empty($_POST["email"])) {
-    $emailForm="Email is not a valid email address";
+    $emailForm = "Email is not a valid email address";
+} else {
+    $emailForm = "";
 }
-else{$emailForm="";}
 
-if (!is_numeric($_POST['zipcode'] )&& !empty($_POST['zipcode'])){
-    $zipcodeForm="Zipcode should be a numeric value";
+if (isset($_POST['zipcode'])) {
+    if (!is_numeric($_POST['zipcode']) && !empty($_POST['zipcode'])) {
+        $zipcodeForm = "Zipcode should be a numeric value";
+    } else {
+        $zipcodeForm = "";
+    }
 }
-else{$zipcodeForm="";}
 
-if (!is_numeric($_POST['streetnumber'] )&& !empty($_POST['streetnumber'])){
-    $streetnumberForm="Street number should be a numeric value";
+if (isset($_POST['streetnumber'])) {
+    if (!is_numeric($_POST['streetnumber']) && !empty($_POST['streetnumber'])) {
+        $streetnumberForm = "Street number should be a numeric value";
+    } else {
+        $streetnumberForm = "";
+    }
 }
-else{$streetnumberForm="";}
+
+
+
+
 
 //-----------------------------------Validation message
 
-$validationMessage="";
-if (isset ($_POST['submit'])){
-    if($emailForm=="" && $zipcodeForm=="" && $streetnumberForm=="" && $emailErr=="" &&  $streetErr=="" && $streetnumberErr=="" &&  $cityErr=="" && $zipcodeErr==""){
-        $validationMessage="Your order has been sent";
+$validationMessage = "";
+if (isset ($_POST['submit'])) {
+    if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
+        $validationMessage = "Your order has been sent";
     }
 }
 
 
 //-----------------------------------Cookies
 
-setcookie('cookie_street', $cookie_street, time()+3600, '/', $domain, false);
-setcookie('cookie_mail', $cookie_mail, time()+3600, '/', $domain, false);
-setcookie('cookie_number', $cookie_number, time()+3600, '/', $domain, false);
-setcookie('cookie_zipcode', $cookie_zipcode, time()+3600, '/', $domain, false);
-setcookie('cookie_city', $cookie_city, time()+3600, '/', $domain, false);
+setcookie('cookie_street', $cookie_street, time() + 3600, '/', $domain, false);
+setcookie('cookie_mail', $cookie_mail, time() + 3600, '/', $domain, false);
+setcookie('cookie_number', $cookie_number, time() + 3600, '/', $domain, false);
+setcookie('cookie_zipcode', $cookie_zipcode, time() + 3600, '/', $domain, false);
+setcookie('cookie_city', $cookie_city, time() + 3600, '/', $domain, false);
 
 
-
-
-    function whatIsHappening()
-    {
-        echo '<h2>$_GET</h2>';
-        var_dump($_GET);
-        echo '<h2>$_POST</h2>';
-        var_dump($_POST);
-        echo '<h2>$_COOKIE</h2>';
-        var_dump($_COOKIE);
-        echo '<h2>$_SESSION</h2>';
-        var_dump($_SESSION);
-    }
+function whatIsHappening()
+{
+    echo '<h2>$_GET</h2>';
+    var_dump($_GET);
+    echo '<h2>$_POST</h2>';
+    var_dump($_POST);
+    echo '<h2>$_COOKIE</h2>';
+    var_dump($_COOKIE);
+    echo '<h2>$_SESSION</h2>';
+    var_dump($_SESSION);
+}
 
 
 //your products with their price.
-    $products = [
-        ['name' => 'Club Ham', 'price' => 3.20],
-        ['name' => 'Club Cheese', 'price' => 3],
-        ['name' => 'Club Cheese & Ham', 'price' => 4],
-        ['name' => 'Club Chicken', 'price' => 4],
-        ['name' => 'Club Salmon', 'price' => 5]
-    ];
 
-    $products = [
-        ['name' => 'Cola', 'price' => 2],
-        ['name' => 'Fanta', 'price' => 2],
-        ['name' => 'Sprite', 'price' => 2],
-        ['name' => 'Ice-tea', 'price' => 3],
-    ];
 
-    $totalValue = 0;
 
-    require 'form-view.php';
+$drinks = [
+    ['name' => 'Cola', 'price' => 2],
+    ['name' => 'Fanta', 'price' => 2],
+    ['name' => 'Sprite', 'price' => 2],
+    ['name' => 'Ice-tea', 'price' => 3],
+];
+
+$sandwichs = [
+    ['name' => 'Club Ham', 'price' => 3.20],
+    ['name' => 'Club Cheese', 'price' => 3],
+    ['name' => 'Club Cheese & Ham', 'price' => 4],
+    ['name' => 'Club Chicken', 'price' => 4],
+    ['name' => 'Club Salmon', 'price' => 5]
+];
+
+
+$food=1;
+$food=$_GET['food'];
+$products = array();
+
+if($food==1){
+    $products =$sandwichs;
+}
+else{$products =$drinks;}
+
+$totalValue = 0;
+
+
+
+require 'form-view.php';
