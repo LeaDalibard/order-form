@@ -51,13 +51,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 }
 
+//-----------------------------------Checking if the format is good
+$emailForm=$zipcodeForm=$streetnumberForm="";
+if (!filter_var($cookie_mail, FILTER_VALIDATE_EMAIL) && !empty($_POST["email"])) {
+    $emailForm="Email is not a valid email address";
+}
+if (!is_numeric($_POST['zipcode'] )&& !empty($_POST['zipcode'])){
+    $zipcodeForm="Zipcode should be a numeric value";
+}
+if (!is_numeric($_POST['streetnumber'] )&& !empty($_POST['streetnumber'])){
+    $streetnumberForm="Street number should be a numeric value";
+}
+
+
    // setcookie($cookie_mail, $cookie_street, $cookie_number, $cookie_city, $cookie_zipcode, time() + (86400 * 30), "/"); // 86400 = 1 day, will expire after 30 days
 
-    if (filter_var($cookie_mail, FILTER_VALIDATE_EMAIL)) {
-        echo("$cookie_mail is a valid email address");
-    } else {
-        echo("$cookie_mail is not a valid email address");
-    }
+
 
 
     function whatIsHappening()

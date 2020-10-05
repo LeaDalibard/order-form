@@ -23,11 +23,12 @@
         </ul>
     </nav>
     <form method="post" action="index.php">
-        <p><span class="error">* required field</span></p>
+        <p><span class="error text-danger"">* required field</span></p>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
-                <span class="error">* <?php echo $emailErr;?></span>
+                <span class="error text-danger"">* <?php echo $emailErr;?></span>
+                <span class="error text-danger""> <?php echo $emailForm;?></span>
                 <input type="text" id="email" name="email" class="form-control"/>
             </div>
             <div></div>
@@ -39,24 +40,26 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
-                    <span class="error">* <?php echo $streetErr;?></span>
+                    <span class="error text-danger"">* <?php echo $streetErr;?></span>
                     <input type="text" name="street" id="street" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="streetnumber">Street number:</label>
-                    <span class="error">* <?php echo $streetnumberErr;?></span>
+                    <label for="streetnumber ">Street number:</label>
+                    <span class="error text-danger"">* <?php echo $streetnumberErr;?></span>
+                    <span class="error text-danger""> <?php echo $streetnumberForm;?></span>
                     <input type="text" id="streetnumber" name="streetnumber" class="form-control">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
-                    <span class="error">* <?php echo $cityErr;?></span>
+                    <span class="error text-danger"">* <?php echo $cityErr;?></span>
                     <input type="text" id="city" name="city" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <span class="error">* <?php echo $zipcodeErr;?></span>
+                    <span class="error text-danger"">* <?php echo $zipcodeErr;?></span>
+                    <span class="error text-danger""> <?php echo $zipcodeForm;?></span>
                     <input type="text" id="zipcode" name="zipcode" class="form-control">
                 </div>
             </div>
