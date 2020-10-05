@@ -17,10 +17,39 @@ $cookie_number = "";
 $cookie_city = "";
 $cookie_zipcode = "";
 
+$emailErr = $streetErr= $streetnumberErr= $cityErr =$zipcodeErr="";
+
+//-----------------------------------Required fields
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['email'])) {
-        $cookie_mail = $_POST['email'];
-    }}
+    if (empty($_POST["email"])) {
+        $emailErr = "Email is required";
+    } else {
+        $cookie_mail = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    }
+
+    if (empty($_POST['street'])){
+        $streetErr = "Street is required";
+    } else {
+        $cookie_street =$_POST['street'];
+    }
+    if (empty($_POST['streetnumber'])){
+        $streetnumberErr = "Street number is required";
+    } else {
+        $cookie_number = $_POST['streetnumber'];
+    }
+    if (empty($_POST['city'])){
+        $cityErr = "City is required";
+    } else {
+        $cookie_city = $_POST['city'];
+    }
+    if (empty($_POST['zipcode'])){
+        $zipcodeErr = "Zipcode is required";
+    } else {
+        $cookie_zipcode = $_POST['zipcode'];
+    }
+
+}
 
    // setcookie($cookie_mail, $cookie_street, $cookie_number, $cookie_city, $cookie_zipcode, time() + (86400 * 30), "/"); // 86400 = 1 day, will expire after 30 days
 
