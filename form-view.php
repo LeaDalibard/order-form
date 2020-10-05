@@ -30,7 +30,7 @@
                 <label for="email">E-mail:</label>
                 <span class="error text-danger"">* <?php echo $emailErr;?></span>
                 <span class="error text-danger""> <?php echo $emailForm;?></span>
-                <input type="text" id="email" name="email" value="<?php echo $_POST['email'] ?? ''; ?>" class="form-control"/>
+                <input type="text" id="email" name="email" value="<?php echo $cookie_mail; ?>" class="form-control"/>
             </div>
             <div></div>
         </div>
@@ -42,26 +42,26 @@
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
                     <span class="error text-danger"">* <?php echo $streetErr;?></span>
-                    <input type="text" name="street" id="street" value="<?php echo $_POST['street'] ?? ''; ?>" class="form-control">
+                    <input type="text" name="street" id="street" value="<?php echo $cookie_street ; ?>" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber ">Street number:</label>
                     <span class="error text-danger"">* <?php echo $streetnumberErr;?></span>
                     <span class="error text-danger""> <?php echo $streetnumberForm;?></span>
-                    <input type="text" id="streetnumber" name="streetnumber" value="<?php echo $_POST['streetnumber'] ?? ''; ?>" class="form-control">
+                    <input type="text" id="streetnumber" name="streetnumber" value="<?php echo $cookie_number; ?>" class="form-control">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
                     <span class="error text-danger"">* <?php echo $cityErr;?></span>
-                    <input type="text" id="city" name="city" value="<?php echo $_POST['city'] ?? ''; ?>" class="form-control">
+                    <input type="text" id="city" name="city" value="<?php echo $cookie_city; ?>" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
                     <span class="error text-danger"">* <?php echo $zipcodeErr;?></span>
                     <span class="error text-danger""> <?php echo $zipcodeForm;?></span>
-                    <input type="text" id="zipcode" name="zipcode" value="<?php echo $_POST['zipcode'] ?? ''; ?>" class="form-control">
+                    <input type="text" id="zipcode" name="zipcode" value="<?php echo $cookie_zipcode; ?>" class="form-control">
                 </div>
             </div>
         </fieldset>
@@ -80,7 +80,7 @@
             Express delivery (+ 5 EUR) 
         </label>
             
-        <button type="submit" class="btn btn-primary">Order!</button>
+        <button type="submit" name="submit" class="btn btn-primary">Order!</button>
     </form>
 
     <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in food and drinks.</footer>

@@ -20,13 +20,25 @@ $cookie_zipcode = "";
 
 $domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
 
+if (isset($_COOKIE['cookie_mail'])) {
+    $cookie_mail = $_COOKIE['cookie_mail'];
+}
 if (isset($_COOKIE['cookie_street'])) {
     $cookie_street = $_COOKIE['cookie_street'];
 }
-
-
+if (isset($_COOKIE['cookie_number'])) {
+    $cookie_number = $_COOKIE['cookie_number'];
+}
+if (isset($_COOKIE['cookie_city'])) {
+    $cookie_city = $_COOKIE['cookie_city'];
+}
+if (isset($_COOKIE['cookie_zipcode'])) {
+    $cookie_zipcode = $_COOKIE['cookie_zipcode'];
+}
+print_r($_COOKIE);
+//whatIsHappening();
 //-----------------------------------Required fields
-whatIsHappening();
+
 $emailErr = $streetErr= $streetnumberErr= $cityErr =$zipcodeErr="";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -84,9 +96,12 @@ else{$streetnumberForm="";}
 //-----------------------------------Validation message
 
 $validationMessage="";
-if($emailForm=="" && $zipcodeForm=="" && $streetnumberForm=="" && $emailErr=="" &&  $streetErr=="" && $streetnumberErr=="" &&  $cityErr=="" && $zipcodeErr==""){
-    $validationMessage="Your order has been sent";
+if (isset ($_POST['submit'])){
+    if($emailForm=="" && $zipcodeForm=="" && $streetnumberForm=="" && $emailErr=="" &&  $streetErr=="" && $streetnumberErr=="" &&  $cityErr=="" && $zipcodeErr==""){
+        $validationMessage="Your order has been sent";
+    }
 }
+
 
 //-----------------------------------Cookies
 
@@ -94,6 +109,7 @@ setcookie('cookie_street', $cookie_street, time()+3600, '/', $domain, false);
 setcookie('cookie_mail', $cookie_mail, time()+3600, '/', $domain, false);
 setcookie('cookie_number', $cookie_number, time()+3600, '/', $domain, false);
 setcookie('cookie_zipcode', $cookie_zipcode, time()+3600, '/', $domain, false);
+setcookie('cookie_city', $cookie_city, time()+3600, '/', $domain, false);
 
 
 
