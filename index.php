@@ -99,14 +99,19 @@ if (isset($_POST['streetnumber'])) {
         $streetnumberForm = "";
     }
 }
+//-----------------------------------Delivery Time
 
+if (isset($_POST['express_delivery'])){
+    $deliveryTime='45 minutes';
+}else{$deliveryTime='2 hours';}
 
 //-----------------------------------Validation message
 
 $validationMessage = "";
 if (isset ($_POST['submit'])) {
     if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
-        $validationMessage = "Your order has been sent";
+        $validationMessage = "Your order has been sent. The delivery time will be ".$deliveryTime.".";
+        $_SESSION['order']=array();
     }
 }
 
@@ -188,41 +193,17 @@ if (isset($_POST['products'])){
     $order=$_SESSION['order'];
     array_push($order, $_POST['products']);
     $_SESSION['order']=$order;
-    var_dump( $_SESSION['order']);
 }
 
+var_dump( $_SESSION['order']);
 
-//if (isset($_POST['products'])) {
-//    if (isset($_SESSION['order'])){
-//        $order=$_SESSION['order'];
-//    }
-//    else {$order=array();
-//        $_SESSION['order']=$order;}
-//    array_push($order, $_POST['products']);
-//    var_dump($order);
-//    //$_SESSION['order']=$order;
-//}
+//-----------------------------------Total revenue counter
 
 
-//array_push($_SESSION['order'], $order);
-
-//whatIsHappening();
     $totalValue = 0;
 
 
     require 'form-view.php';
 
-// foreach($keys as $x => $val) {
-//       // echo $products[$val]['price'];
-//        //echo $products[$val]['name'];
-//        //
-//        $row = array();
-//        $row['price']=$products[$val]['price'];
-//        $row['name']=$products[$val]['name'];
-//        $order[] = $row;
-//
-//       // array_push( $order,$products[$val]['name'],$products[$val]['price']);
-//    }
 
 
-//$keys = array_keys($_POST['products']);
