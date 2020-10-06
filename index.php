@@ -166,17 +166,20 @@ if ($food == 1) {
 
 //-----------------------------------Set session variable for products
 
-var_dump($products);
-//foreach ($products as $i => $product){
-//    if (isset ($_POST[$products[$i]])) {
-//        echo $_POST[$products['name']];
-//    }
-//}
+//var_dump($products);
 
 
+if (isset($_POST['products'])) {
+    var_dump($_POST['products']);
+    $keys = array_keys($_POST['products']);
+    echo var_dump($keys);
+    $keylength = count($keys);
+    var_dump($products);
+    echo $products[$keys[0]]['price'];
+}
 
 
-$totalValue = 0;
+    $totalValue = 0;
 
 
-require 'form-view.php';
+    require 'form-view.php';
