@@ -116,8 +116,8 @@ if (isset ($_POST['submit'])) {
     if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
         $validationMessage = "Your order has been sent. The delivery time will be ".$deliveryTime.".";
         $_SESSION['order']=array();
-        $msg = "First line of text\nSecond line of text";
-        mail("leadalibard@gmail.com","My subject",$msg);
+        $msg = "Thank your for your order.\n\nYour information :\nAdress : ".$cookie_street. ", ".$cookie_number."\n".$cookie_zipcode." ".$cookie_city."\n\nYou ordered : ";
+       // mail($cookie_mail,"My delivery",$msg);
     }
 }
 
@@ -189,28 +189,34 @@ if (isset($_POST['products'])){
 }
 
 var_dump( $_SESSION['order']);
-
+$orderRecap='';
+foreach ($_SESSION['order'] [0]as $x=>$x_value)
+{
+    $orderRecap=$orderRecap. "Order : " . $x . ", Price=" . $x_value."<br>";
+}
+echo $orderRecap;
 //-----------------------------------Total revenue counter
 
 if (isset($_POST['express_delivery'])){
-    $price=5;
-}else{$price=0;}
-
+    $delivery_price=5;
+}else{$delivery_price=0;}
+$price=0;
 foreach($_SESSION['order'] [0]as $x => $val) {
     $price+= $val;
 }
 
-echo  $price;
+$total_price=$price+$delivery_price;
+
 //-----------------------------------SESSION VALUE
 $_SESSION['price']=$price;
 //$total=$price+(float)$cookie_total;
 if (isset($_COOKIE['cookie_total'])){
-    $total=(float)$_COOKIE['cookie_total']+$price;
+    $total=(float)$_COOKIE['cookie_total']+$total_price;
 }
-else{$total=$price;
+else{$total=$total_price;
     $_COOKIE['cookie_total']=strval ( $total );
 }
-echo  $total;
+
 $cookie_total=strval ( $total );
 
 //-----------------------------------Cookies
@@ -222,10 +228,6 @@ setcookie('cookie_number', $cookie_number, time() + 3600, '/', $domain, false);
 setcookie('cookie_zipcode', $cookie_zipcode, time() + 3600, '/', $domain, false);
 setcookie('cookie_city', $cookie_city, time() + 3600, '/', $domain, false);
 setcookie('cookie_total',$cookie_total, time() + 3600, '/', $domain, false);
-
-
-
-whatIsHappening();
 
 
 
