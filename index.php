@@ -109,17 +109,6 @@ if (isset($_POST['express_delivery'])){
     $deliveryTime='45 minutes';
 }else{$deliveryTime='2 hours';}
 
-//-----------------------------------Validation message
-
-$validationMessage = "";
-if (isset ($_POST['submit'])) {
-    if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
-        $validationMessage = "Your order has been sent. The delivery time will be ".$deliveryTime.".";
-        $_SESSION['order']=array();
-        $msg = "Thank your for your order.\n\nYour information :\nAdress : ".$cookie_street. ", ".$cookie_number."\n".$cookie_zipcode." ".$cookie_city."\n\nYou ordered : ";
-       // mail($cookie_mail,"My delivery",$msg);
-    }
-}
 
 
 function whatIsHappening()
@@ -192,9 +181,9 @@ var_dump( $_SESSION['order']);
 $orderRecap='';
 foreach ($_SESSION['order'] [0]as $x=>$x_value)
 {
-    $orderRecap=$orderRecap. "Order : " . $x . ", Price=" . $x_value."<br>";
+    $orderRecap=$orderRecap. "Order : " . $x . ", Price=" . $x_value."\n";
 }
-echo $orderRecap;
+
 //-----------------------------------Total revenue counter
 
 if (isset($_POST['express_delivery'])){
@@ -218,6 +207,20 @@ else{$total=$total_price;
 }
 
 $cookie_total=strval ( $total );
+
+
+//-----------------------------------Validation message
+
+$validationMessage = "";
+if (isset ($_POST['submit'])) {
+    if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
+        $validationMessage = "Your order has been sent. The delivery time will be ".$deliveryTime.".";
+        $_SESSION['order']=array();
+        $msg = "Thank your for your order.\n\nYour information :\nAdress : ".$cookie_street. ", ".$cookie_number."\n".$cookie_zipcode." ".$cookie_city."\n\nYour command :\n".$orderRecap."\n\nOrder price :".$price."€.\nExtra delivery cost :".$delivery_price."€."."\n\nTotal  price :".$total_price."€."."\n\nExpected delivery time :";
+        mail($cookie_mail,"My delivery",$msg);
+    }
+}
+
 
 //-----------------------------------Cookies
 $totalValue =$cookie_total;
