@@ -173,19 +173,38 @@ $_SESSION['products']=$products;
 
 
 //-----------------------------------Set session variable for products
+//if (isset($_SESSION['order'])){
+//    $order=$_SESSION['order'];
+//}
+//else {$order=array();
+//    $_SESSION['order']=$order;}
 
+if (isset($_SESSION['order'])){
+    $_SESSION['order']= $_SESSION['order'];
+}
+else{$_SESSION['order']=array();}
 
-$_SESSION['order'] =array();
-
-if (isset($_POST['products'])) {
-    $order=$_POST['products'];
-    var_dump($order);
-
+if (isset($_POST['products'])){
+    $order=$_SESSION['order'];
+    array_push($order, $_POST['products']);
     $_SESSION['order']=$order;
-
+    var_dump( $_SESSION['order']);
 }
 
 
+//if (isset($_POST['products'])) {
+//    if (isset($_SESSION['order'])){
+//        $order=$_SESSION['order'];
+//    }
+//    else {$order=array();
+//        $_SESSION['order']=$order;}
+//    array_push($order, $_POST['products']);
+//    var_dump($order);
+//    //$_SESSION['order']=$order;
+//}
+
+
+//array_push($_SESSION['order'], $order);
 
 //whatIsHappening();
     $totalValue = 0;
