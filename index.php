@@ -116,6 +116,8 @@ if (isset ($_POST['submit'])) {
     if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
         $validationMessage = "Your order has been sent. The delivery time will be ".$deliveryTime.".";
         $_SESSION['order']=array();
+        $msg = "First line of text\nSecond line of text";
+        mail("leadalibard@gmail.com","My subject",$msg);
     }
 }
 
@@ -173,11 +175,7 @@ $_SESSION['products']=$products;
 
 
 //-----------------------------------Set session variable for products
-//if (isset($_SESSION['order'])){
-//    $order=$_SESSION['order'];
-//}
-//else {$order=array();
-//    $_SESSION['order']=$order;}
+
 
 if (isset($_SESSION['order'])){
     $_SESSION['order']= $_SESSION['order'];
@@ -194,7 +192,10 @@ var_dump( $_SESSION['order']);
 
 //-----------------------------------Total revenue counter
 
-$price=0;
+if (isset($_POST['express_delivery'])){
+    $price=5;
+}else{$price=0;}
+
 foreach($_SESSION['order'] [0]as $x => $val) {
     $price+= $val;
 }
