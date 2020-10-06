@@ -9,6 +9,7 @@ error_reporting(E_ALL);
 //we are going to use session variables so we need to enable sessions
 session_start();
 
+
 //-----------------------------------Cookie setting
 
 $cookie_mail = "";
@@ -135,14 +136,7 @@ function whatIsHappening()
 //your products with their price.
 
 
-$drinks = [
-    ['name' => 'Cola', 'price' => 2],
-    ['name' => 'Fanta', 'price' => 2],
-    ['name' => 'Sprite', 'price' => 2],
-    ['name' => 'Ice-tea', 'price' => 3],
-];
-
-$sandwichs = [
+$products = [
     ['name' => 'Club Ham', 'price' => 3.20],
     ['name' => 'Club Cheese', 'price' => 3],
     ['name' => 'Club Cheese & Ham', 'price' => 4],
@@ -150,36 +144,66 @@ $sandwichs = [
     ['name' => 'Club Salmon', 'price' => 5]
 ];
 
-$food = 1;
+
 
 if (isset ($_GET['food'])) {
-    $food = $_GET['food'];
-}
+    if ($_GET['food']==0){
+        $food=0;
+        $products = [
+            ['name' => 'Cola', 'price' => 2],
+            ['name' => 'Fanta', 'price' => 2],
+            ['name' => 'Sprite', 'price' => 2],
+            ['name' => 'Ice-tea', 'price' => 3],
+        ];
+    }
+   elseif ($_GET['food']==1) {
+       $food=1;
+       $products = [
+           ['name' => 'Club Ham', 'price' => 3.20],
+           ['name' => 'Club Cheese', 'price' => 3],
+           ['name' => 'Club Cheese & Ham', 'price' => 4],
+           ['name' => 'Club Chicken', 'price' => 4],
+           ['name' => 'Club Salmon', 'price' => 5]
+       ];
+   }
 
-$products = array();
+   }
 
-if ($food == 1) {
-    $products = $sandwichs;
-} else {
-    $products = $drinks;
-}
+$_SESSION['products']=$products;
+
 
 //-----------------------------------Set session variable for products
 
-//var_dump($products);
 
+$_SESSION['order'] =array();
 
 if (isset($_POST['products'])) {
-    var_dump($_POST['products']);
-    $keys = array_keys($_POST['products']);
-    echo var_dump($keys);
-    $keylength = count($keys);
-    var_dump($products);
-    echo $products[$keys[0]]['price'];
+    $order=$_POST['products'];
+    var_dump($order);
+
+    $_SESSION['order']=$order;
+
 }
 
 
+
+//whatIsHappening();
     $totalValue = 0;
 
 
     require 'form-view.php';
+
+// foreach($keys as $x => $val) {
+//       // echo $products[$val]['price'];
+//        //echo $products[$val]['name'];
+//        //
+//        $row = array();
+//        $row['price']=$products[$val]['price'];
+//        $row['name']=$products[$val]['name'];
+//        $order[] = $row;
+//
+//       // array_push( $order,$products[$val]['name'],$products[$val]['price']);
+//    }
+
+
+//$keys = array_keys($_POST['products']);
