@@ -18,6 +18,7 @@ $cookie_number = "";
 $cookie_city = "";
 $cookie_zipcode = "";
 
+
 $domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
 
 if (isset($_COOKIE['cookie_mail'])) {
@@ -35,7 +36,10 @@ if (isset($_COOKIE['cookie_city'])) {
 if (isset($_COOKIE['cookie_zipcode'])) {
     $cookie_zipcode = $_COOKIE['cookie_zipcode'];
 }
-
+if (isset($_COOKIE['$cookie_total'])) {
+    $cookie_total = $_COOKIE['$cookie_total'];
+}
+else{$cookie_total='';}
 
 //-----------------------------------Required fields
 
@@ -116,15 +120,6 @@ if (isset ($_POST['submit'])) {
 }
 
 
-//-----------------------------------Cookies
-
-setcookie('cookie_street', $cookie_street, time() + 3600, '/', $domain, false);
-setcookie('cookie_mail', $cookie_mail, time() + 3600, '/', $domain, false);
-setcookie('cookie_number', $cookie_number, time() + 3600, '/', $domain, false);
-setcookie('cookie_zipcode', $cookie_zipcode, time() + 3600, '/', $domain, false);
-setcookie('cookie_city', $cookie_city, time() + 3600, '/', $domain, false);
-
-
 function whatIsHappening()
 {
     echo '<h2>$_GET</h2>';
@@ -199,8 +194,38 @@ var_dump( $_SESSION['order']);
 
 //-----------------------------------Total revenue counter
 
+$price=0;
+foreach($_SESSION['order'] [0]as $x => $val) {
+    $price+= $val;
+}
 
-    $totalValue = 0;
+echo  $price;
+//-----------------------------------SESSION VALUE
+$_SESSION['price']=$price;
+//$total=$price+(float)$cookie_total;
+if (isset($_COOKIE['cookie_total'])){
+    $total=(float)$_COOKIE['cookie_total']+$price;
+}
+else{$total=$price;
+    $_COOKIE['cookie_total']=strval ( $total );
+}
+echo  $total;
+$cookie_total=strval ( $total );
+
+//-----------------------------------Cookies
+$totalValue =$cookie_total;
+
+setcookie('cookie_street', $cookie_street, time() + 3600, '/', $domain, false);
+setcookie('cookie_mail', $cookie_mail, time() + 3600, '/', $domain, false);
+setcookie('cookie_number', $cookie_number, time() + 3600, '/', $domain, false);
+setcookie('cookie_zipcode', $cookie_zipcode, time() + 3600, '/', $domain, false);
+setcookie('cookie_city', $cookie_city, time() + 3600, '/', $domain, false);
+setcookie('cookie_total',$cookie_total, time() + 3600, '/', $domain, false);
+
+
+
+whatIsHappening();
+
 
 
     require 'form-view.php';
