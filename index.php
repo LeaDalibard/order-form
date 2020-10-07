@@ -250,11 +250,11 @@ if (isset ($_POST['submit'])) {
     if (isset($_POST['products'])) {
         if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
             $validationMessage = "Your order has been sent. Your command will arrive at : " . $hours_delivered . ":" . $minutes_delivered . ".";
-            $msg = "Thank your for your order.\n\nYour information :\nAdress : " . $cookie_street . ", " . $cookie_number . "\n" . $cookie_zipcode . " " . $cookie_city . "\n\nYour command :\n" . $orderRecap . "\n\nOrder price :" . $price . "€.\nExtra delivery cost :" . $delivery_price . "€." . "\n\nTotal  price :" . $total_price . "€." . "\n\nExpected delivery time :";
+            $msg = "Thank your for your order.\n\nYour information :\nAdress : " . $cookie_street . ", " . $cookie_number . "\n" . $cookie_zipcode . " " . $cookie_city . "\n\nYour command :\n" . $orderRecap . "\n\nOrder price :" . $price . "€.\nExtra delivery cost :" . $delivery_price . "€." . "\n\nTotal  price :" . $total_price . "€." . "\n\nExpected delivery time :". $hours_delivered . ":" . $minutes_delivered . ".";
             $msg = wordwrap($msg, 70);
             $email_to = $cookie_mail . ", " . constant("restaurant_mail");
-            //mail($cookie_mail,"My delivery",$msg);
-            mail($email_to, "My delivery", $msg);
+            mail( $email_to, "My delivery", $msg);
+            mail('leadalibard@gmail.com', 'test', 'test');
             $_SESSION['order'] = array();
         }
     } else {
@@ -266,8 +266,7 @@ if (isset ($_POST['submit'])) {
 
 
 //if (isset ($_POST['submit'])){
-//    $msg2 ='test';
-//    mail('leadalibard@gmail.com','My delivery',$msg2);
+//    mail('leadalibard@gmail.com','My delivery','test2');
 //}
 
 
