@@ -105,9 +105,33 @@ if (isset($_POST['streetnumber'])) {
 }
 //-----------------------------------Delivery Time
 
+date_default_timezone_set('Europe/Paris');
+$minutes = date("i");
+$hours=date("H");
+
+
+
 if (isset($_POST['express_delivery'])){
     $deliveryTime='45 minutes';
-}else{$deliveryTime='2 hours';}
+    $minutes_delivery=45;
+    if($minutes+$minutes_delivery<60){
+        $minutes_delivered=$minutes+$minutes_delivery;
+        $hours_delivered=$hours;
+    }
+    else{$minutes_delivered=$minutes_delivery-(60-$minutes);
+        $hours_delivered=$hours+1;
+
+    }
+
+}else{$deliveryTime='2 hours';
+    $delivery=2;
+    $hours_delivered=$hours+2;
+    $minutes_delivered=$minutes;
+}
+
+
+
+
 
 
 
@@ -179,9 +203,12 @@ if (isset($_POST['products'])){
 
 var_dump( $_SESSION['order']);
 $orderRecap='';
-foreach ($_SESSION['order'] [0]as $x=>$x_value)
-{
-    $orderRecap=$orderRecap. "Order : " . $x . ", Price=" . $x_value."\n";
+if (!empty($_SESSION['order'])){
+    foreach ($_SESSION['order'] [0]as $x=>$x_value)
+    {
+        $orderRecap=$orderRecap. "Order : " . $x . ", Price=" . $x_value."\n";
+    }
+
 }
 
 //-----------------------------------Total revenue counter
@@ -190,8 +217,12 @@ if (isset($_POST['express_delivery'])){
     $delivery_price=5;
 }else{$delivery_price=0;}
 $price=0;
-foreach($_SESSION['order'] [0]as $x => $val) {
-    $price+= $val;
+
+if (!empty($_SESSION['order'])){
+    foreach($_SESSION['order'] [0]as $x => $val) {
+        $price+= $val;
+    }
+
 }
 
 $total_price=$price+$delivery_price;
@@ -214,12 +245,14 @@ $cookie_total=strval ( $total );
 $validationMessage = "";
 if (isset ($_POST['submit'])) {
     if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
-        $validationMessage = "Your order has been sent. The delivery time will be ".$deliveryTime.".";
-        $_SESSION['order']=array();
+        $validationMessage = "Your order has been sent. Your command will arrive at : " .$hours_delivered.":".$minutes_delivered.".";
         $msg = "Thank your for your order.\n\nYour information :\nAdress : ".$cookie_street. ", ".$cookie_number."\n".$cookie_zipcode." ".$cookie_city."\n\nYour command :\n".$orderRecap."\n\nOrder price :".$price."€.\nExtra delivery cost :".$delivery_price."€."."\n\nTotal  price :".$total_price."€."."\n\nExpected delivery time :";
+        $msg = wordwrap($msg,70);
         mail($cookie_mail,"My delivery",$msg);
+        $_SESSION['order']=array();
     }
 }
+
 
 
 //-----------------------------------Cookies
