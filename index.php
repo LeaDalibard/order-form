@@ -221,10 +221,12 @@ if (isset($_POST['express_delivery'])) {
 $price = 0;
 
 if (!empty($_SESSION['order'])) {
-    foreach ($_SESSION['order'] [0] as $x => $val) {
-        $price += $val;
+    for ($i = 0; $i < $length; $i++) {
+        foreach ($_SESSION['order'] [$i] as $x => $val) {
+            $price+= $val;
+        }
+       // $total_order_price+= $price;
     }
-    echo $price;
 
 }
 
@@ -256,7 +258,7 @@ if (isset ($_POST['submit'])) {
             $msg = "Thank your for your order.\n\nYour information :\nAdress : " . $cookie_street . ", " . $cookie_number . "\n" . $cookie_zipcode . " " . $cookie_city . "\n\nYour command :\n" . $orderRecap . "\n\nOrder price :" . $price . "€.\nExtra delivery cost :" . $delivery_price . "€." . "\n\nTotal  price :" . $total_price . "€." . "\n\nExpected delivery time :" . $hours_delivered . ":" . $minutes_delivered . ".";
             $msg = wordwrap($msg, 70);
             $email_to = $cookie_mail . ", " . constant("restaurant_mail");
-            //mail( $email_to, "My delivery", $msg);
+            mail( $email_to, "My delivery", $msg);
             //mail('leadalibard@gmail.com', 'test', 'test');
             $_SESSION['order'] = array();
         }
