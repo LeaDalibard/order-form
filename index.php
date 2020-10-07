@@ -203,12 +203,14 @@ if (isset($_POST['products'])) {
 var_dump($_SESSION['order']);
 $orderRecap = '';
 if (!empty($_SESSION['order'])) {
-    foreach ($_SESSION['order'] [0] as $x => $x_value) {
-        $orderRecap = $orderRecap . "Order : " . $x . ", Price=" . $x_value . "\n";
+    $length = count($_SESSION['order']);
+    for ($i = 0; $i < $length; $i++) {
+        foreach ($_SESSION['order'] [$i] as $x => $x_value) {
+            $orderRecap = $orderRecap . "Order : " . $x . ", Price=" . $x_value . "\n";
+        }
     }
-
 }
-
+echo $orderRecap;
 //-----------------------------------Total revenue counter
 
 if (isset($_POST['express_delivery'])) {
@@ -222,6 +224,7 @@ if (!empty($_SESSION['order'])) {
     foreach ($_SESSION['order'] [0] as $x => $val) {
         $price += $val;
     }
+    echo $price;
 
 }
 
@@ -244,17 +247,17 @@ $cookie_total = strval($total);
 define("restaurant_mail", "leadalibard@gmail.com");
 
 //-----------------------------------Validation message
-$alert_empty ="";
+$alert_empty = "";
 $validationMessage = "";
 if (isset ($_POST['submit'])) {
     if (isset($_POST['products'])) {
         if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
             $validationMessage = "Your order has been sent. Your command will arrive at : " . $hours_delivered . ":" . $minutes_delivered . ".";
-            $msg = "Thank your for your order.\n\nYour information :\nAdress : " . $cookie_street . ", " . $cookie_number . "\n" . $cookie_zipcode . " " . $cookie_city . "\n\nYour command :\n" . $orderRecap . "\n\nOrder price :" . $price . "€.\nExtra delivery cost :" . $delivery_price . "€." . "\n\nTotal  price :" . $total_price . "€." . "\n\nExpected delivery time :". $hours_delivered . ":" . $minutes_delivered . ".";
+            $msg = "Thank your for your order.\n\nYour information :\nAdress : " . $cookie_street . ", " . $cookie_number . "\n" . $cookie_zipcode . " " . $cookie_city . "\n\nYour command :\n" . $orderRecap . "\n\nOrder price :" . $price . "€.\nExtra delivery cost :" . $delivery_price . "€." . "\n\nTotal  price :" . $total_price . "€." . "\n\nExpected delivery time :" . $hours_delivered . ":" . $minutes_delivered . ".";
             $msg = wordwrap($msg, 70);
             $email_to = $cookie_mail . ", " . constant("restaurant_mail");
-            mail( $email_to, "My delivery", $msg);
-            mail('leadalibard@gmail.com', 'test', 'test');
+            //mail( $email_to, "My delivery", $msg);
+            //mail('leadalibard@gmail.com', 'test', 'test');
             $_SESSION['order'] = array();
         }
     } else {

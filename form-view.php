@@ -71,6 +71,7 @@
 
         <fieldset>
             <legend>Products</legend>
+
             <?php foreach ($products AS $i => $product): ?>
                 <label>
                     <input type="checkbox" value="<?php echo $product['price'] ?>" name="products[<?php echo $product['name'] ?>]"/> <?php echo $product['name'] ?> -
