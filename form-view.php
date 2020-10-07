@@ -78,12 +78,15 @@
                 </label><br />
             <?php endforeach; ?>
         </fieldset>
-        
+        <div>
+            <button type="submit" name="select" class="btn btn-primary">Select</button>
+        </div>
+
         <label>
             <input type="checkbox" name="express_delivery" value="5" /> 
             Express delivery (+ 5 EUR) 
         </label>
-            
+
         <button type="submit" name="submit" class="btn btn-primary">Order!</button>
     </form>
 
