@@ -23,6 +23,8 @@
             </li>
         </ul>
     </nav>
+
+    <span><?php echo $alert_empty;?></span>
     <form method="post" action="index.php">
         <span class="error text-success"><?php echo $validationMessage;?></span>
         <p><span class="error text-danger">* required field</span></p>

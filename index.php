@@ -38,8 +38,9 @@ if (isset($_COOKIE['cookie_zipcode'])) {
 }
 if (isset($_COOKIE['$cookie_total'])) {
     $cookie_total = $_COOKIE['$cookie_total'];
+} else {
+    $cookie_total = '';
 }
-else{$cookie_total='';}
 
 //-----------------------------------Required fields
 
@@ -103,32 +104,33 @@ if (isset($_POST['streetnumber'])) {
         $streetnumberForm = "";
     }
 }
+
+
 //-----------------------------------Delivery Time
 
 date_default_timezone_set('Europe/Paris');
 $minutes = date("i");
-$hours=date("H");
+$hours = date("H");
 
 
+if (isset($_POST['express_delivery'])) {
+    $deliveryTime = '45 minutes';
+    $minutes_delivery = 45;
+    if ($minutes + $minutes_delivery < 60) {
+        $minutes_delivered = $minutes + $minutes_delivery;
+        $hours_delivered = $hours;
+    } else {
+        $minutes_delivered = $minutes_delivery - (60 - $minutes);
+        $hours_delivered = $hours + 1;
 
-if (isset($_POST['express_delivery'])){
-    $deliveryTime='45 minutes';
-    $minutes_delivery=45;
-    if($minutes+$minutes_delivery<60){
-        $minutes_delivered=$minutes+$minutes_delivery;
-        $hours_delivered=$hours;
     }
-    else{$minutes_delivered=$minutes_delivery-(60-$minutes);
-        $hours_delivered=$hours+1;
 
-    }
-
-}else{$deliveryTime='2 hours';
-    $delivery=2;
-    $hours_delivered=$hours+2;
-    $minutes_delivered=$minutes;
+} else {
+    $deliveryTime = '2 hours';
+    $delivery = 2;
+    $hours_delivered = $hours + 2;
+    $minutes_delivered = $minutes;
 }
-
 
 
 //---------------------------- whatIsHappening
@@ -158,103 +160,110 @@ $products = [
 ];
 
 
-
 if (isset ($_GET['food'])) {
-    if ($_GET['food']==0){
-        $food=0;
+    if ($_GET['food'] == 0) {
+        $food = 0;
         $products = [
             ['name' => 'Cola', 'price' => 2],
             ['name' => 'Fanta', 'price' => 2],
             ['name' => 'Sprite', 'price' => 2],
             ['name' => 'Ice-tea', 'price' => 3],
         ];
+    } elseif ($_GET['food'] == 1) {
+        $food = 1;
+        $products = [
+            ['name' => 'Club Ham', 'price' => 3.20],
+            ['name' => 'Club Cheese', 'price' => 3],
+            ['name' => 'Club Cheese & Ham', 'price' => 4],
+            ['name' => 'Club Chicken', 'price' => 4],
+            ['name' => 'Club Salmon', 'price' => 5]
+        ];
     }
-   elseif ($_GET['food']==1) {
-       $food=1;
-       $products = [
-           ['name' => 'Club Ham', 'price' => 3.20],
-           ['name' => 'Club Cheese', 'price' => 3],
-           ['name' => 'Club Cheese & Ham', 'price' => 4],
-           ['name' => 'Club Chicken', 'price' => 4],
-           ['name' => 'Club Salmon', 'price' => 5]
-       ];
-   }
 
-   }
+}
 
-$_SESSION['products']=$products;
+$_SESSION['products'] = $products;
 
 
 //-----------------------------------Set session variable for products
 
 
-if (isset($_SESSION['order'])){
-    $_SESSION['order']= $_SESSION['order'];
+if (isset($_SESSION['order'])) {
+    $_SESSION['order'] = $_SESSION['order'];
+} else {
+    $_SESSION['order'] = array();
 }
-else{$_SESSION['order']=array();}
 
-if (isset($_POST['products'])){
-    $order=$_SESSION['order'];
+if (isset($_POST['products'])) {
+    $order = $_SESSION['order'];
     array_push($order, $_POST['products']);
-    $_SESSION['order']=$order;
+    $_SESSION['order'] = $order;
 }
 
-var_dump( $_SESSION['order']);
-$orderRecap='';
-if (!empty($_SESSION['order'])){
-    foreach ($_SESSION['order'] [0]as $x=>$x_value)
-    {
-        $orderRecap=$orderRecap. "Order : " . $x . ", Price=" . $x_value."\n";
+var_dump($_SESSION['order']);
+$orderRecap = '';
+if (!empty($_SESSION['order'])) {
+    foreach ($_SESSION['order'] [0] as $x => $x_value) {
+        $orderRecap = $orderRecap . "Order : " . $x . ", Price=" . $x_value . "\n";
     }
 
 }
 
 //-----------------------------------Total revenue counter
 
-if (isset($_POST['express_delivery'])){
-    $delivery_price=5;
-}else{$delivery_price=0;}
-$price=0;
+if (isset($_POST['express_delivery'])) {
+    $delivery_price = 5;
+} else {
+    $delivery_price = 0;
+}
+$price = 0;
 
-if (!empty($_SESSION['order'])){
-    foreach($_SESSION['order'] [0]as $x => $val) {
-        $price+= $val;
+if (!empty($_SESSION['order'])) {
+    foreach ($_SESSION['order'] [0] as $x => $val) {
+        $price += $val;
     }
 
 }
 
-$total_price=$price+$delivery_price;
+$total_price = $price + $delivery_price;
 
 //-----------------------------------SESSION VALUE
-$_SESSION['price']=$price;
+$_SESSION['price'] = $price;
 //$total=$price+(float)$cookie_total;
-if (isset($_COOKIE['cookie_total'])){
-    $total=(float)$_COOKIE['cookie_total']+$total_price;
-}
-else{$total=$total_price;
-    $_COOKIE['cookie_total']=strval ( $total );
+if (isset($_COOKIE['cookie_total'])) {
+    $total = (float)$_COOKIE['cookie_total'] + $total_price;
+} else {
+    $total = $total_price;
+    $_COOKIE['cookie_total'] = strval($total);
 }
 
-$cookie_total=strval ( $total );
+$cookie_total = strval($total);
 
 //-----------------------------------Define owner of the restaurant mail
 
-define("restaurant_mail","leadalibard@gmail.com");
+define("restaurant_mail", "leadalibard@gmail.com");
 
 //-----------------------------------Validation message
-
+$alert_empty ="";
 $validationMessage = "";
 if (isset ($_POST['submit'])) {
-    if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
-        $validationMessage = "Your order has been sent. Your command will arrive at : " .$hours_delivered.":".$minutes_delivered.".";
-        $msg = "Thank your for your order.\n\nYour information :\nAdress : ".$cookie_street. ", ".$cookie_number."\n".$cookie_zipcode." ".$cookie_city."\n\nYour command :\n".$orderRecap."\n\nOrder price :".$price."€.\nExtra delivery cost :".$delivery_price."€."."\n\nTotal  price :".$total_price."€."."\n\nExpected delivery time :";
-        $msg = wordwrap($msg,70);
-        $email_to = $cookie_mail.", ".constant("restaurant_mail");
-        //mail($cookie_mail,"My delivery",$msg);
-        mail($email_to,"My delivery",$msg);
-        $_SESSION['order']=array();
+    if (isset($_POST['products'])) {
+        if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
+            $validationMessage = "Your order has been sent. Your command will arrive at : " . $hours_delivered . ":" . $minutes_delivered . ".";
+            $msg = "Thank your for your order.\n\nYour information :\nAdress : " . $cookie_street . ", " . $cookie_number . "\n" . $cookie_zipcode . " " . $cookie_city . "\n\nYour command :\n" . $orderRecap . "\n\nOrder price :" . $price . "€.\nExtra delivery cost :" . $delivery_price . "€." . "\n\nTotal  price :" . $total_price . "€." . "\n\nExpected delivery time :";
+            $msg = wordwrap($msg, 70);
+            $email_to = $cookie_mail . ", " . constant("restaurant_mail");
+            //mail($cookie_mail,"My delivery",$msg);
+            mail($email_to, "My delivery", $msg);
+            $_SESSION['order'] = array();
+        }
+    } else {
+        $alert_empty = '<div class="alert alert-danger" role="alert">
+           Your order is empty!
+</div>';
     }
 }
+
 
 //if (isset ($_POST['submit'])){
 //    $msg2 ='test';
@@ -263,18 +272,17 @@ if (isset ($_POST['submit'])) {
 
 
 //-----------------------------------Cookies
-$totalValue =$cookie_total;
+$totalValue = $cookie_total;
 
 setcookie('cookie_street', $cookie_street, time() + 3600, '/', $domain, false);
 setcookie('cookie_mail', $cookie_mail, time() + 3600, '/', $domain, false);
 setcookie('cookie_number', $cookie_number, time() + 3600, '/', $domain, false);
 setcookie('cookie_zipcode', $cookie_zipcode, time() + 3600, '/', $domain, false);
 setcookie('cookie_city', $cookie_city, time() + 3600, '/', $domain, false);
-setcookie('cookie_total',$cookie_total, time() + 3600, '/', $domain, false);
+setcookie('cookie_total', $cookie_total, time() + 3600, '/', $domain, false);
 
 
-
-    require 'form-view.php';
+require 'form-view.php';
 
 
 
