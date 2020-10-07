@@ -131,9 +131,7 @@ if (isset($_POST['express_delivery'])){
 
 
 
-
-
-
+//---------------------------- whatIsHappening
 
 function whatIsHappening()
 {
@@ -148,7 +146,7 @@ function whatIsHappening()
 }
 
 
-//your products with their price.
+//---------------------------- your products with their price.
 
 
 $products = [
@@ -239,6 +237,9 @@ else{$total=$total_price;
 
 $cookie_total=strval ( $total );
 
+//-----------------------------------Define owner of the restaurant mail
+
+define("restaurant_mail","leadalibard@gmail.com");
 
 //-----------------------------------Validation message
 
@@ -248,11 +249,17 @@ if (isset ($_POST['submit'])) {
         $validationMessage = "Your order has been sent. Your command will arrive at : " .$hours_delivered.":".$minutes_delivered.".";
         $msg = "Thank your for your order.\n\nYour information :\nAdress : ".$cookie_street. ", ".$cookie_number."\n".$cookie_zipcode." ".$cookie_city."\n\nYour command :\n".$orderRecap."\n\nOrder price :".$price."€.\nExtra delivery cost :".$delivery_price."€."."\n\nTotal  price :".$total_price."€."."\n\nExpected delivery time :";
         $msg = wordwrap($msg,70);
-        mail($cookie_mail,"My delivery",$msg);
+        $email_to = $cookie_mail.", ".constant("restaurant_mail");
+        //mail($cookie_mail,"My delivery",$msg);
+        mail($email_to,"My delivery",$msg);
         $_SESSION['order']=array();
     }
 }
 
+//if (isset ($_POST['submit'])){
+//    $msg2 ='test';
+//    mail('leadalibard@gmail.com','My delivery',$msg2);
+//}
 
 
 //-----------------------------------Cookies
