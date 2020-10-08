@@ -1,4 +1,5 @@
 <?php
+
 //this line makes PHP behave in a more strict way
 declare(strict_types=1);
 
@@ -8,7 +9,7 @@ error_reporting(E_ALL);
 
 //we are going to use session variables so we need to enable sessions
 session_start();
-
+require 'ooptrying.php';
 
 //-----------------------------------Cookie setting
 
@@ -269,10 +270,6 @@ if (isset ($_POST['submit'])) {
 }
 
 
-//if (isset ($_POST['submit'])){
-//    mail('leadalibard@gmail.com','My delivery','test2');
-//}
-
 
 //-----------------------------------Cookies
 $totalValue = $cookie_total;
@@ -287,7 +284,7 @@ setcookie('cookie_total', $cookie_total, time() + 3600, '/', $domain, false);
 
 require 'form-view.php';
 
-require 'ooptrying.php';
+
 
 
 
