@@ -256,6 +256,7 @@ if (isset ($_POST['submit'])) {
             $msg = "Thank your for your order.\n\nYour information :\nAdress : " . $cookie_street . ", " . $cookie_number . "\n" . $cookie_zipcode . " " . $cookie_city . "\n\nYour command :\n" . $orderRecap . "\n\nOrder price :" . $price . "€.\nExtra delivery cost :" . $delivery_price . "€." . "\n\nTotal  price :" . $total_price . "€." . "\n\nExpected delivery time :" . $hours_delivered . ":" . $minutes_delivered . ".";
             $msg = wordwrap($msg, 70);
             $email_to = $cookie_mail . ", " . constant("restaurant_mail");
+            echo $msg;
             mail( $email_to, "My delivery", $msg);
             //mail('leadalibard@gmail.com', 'test', 'test');
             session_unset();
@@ -285,6 +286,9 @@ setcookie('cookie_total', $cookie_total, time() + 3600, '/', $domain, false);
 
 
 require 'form-view.php';
+
+require 'ooptrying.php';
+
 
 
 
