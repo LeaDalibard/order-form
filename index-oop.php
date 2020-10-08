@@ -9,8 +9,8 @@ error_reporting(E_ALL);
 
 //we are going to use session variables so we need to enable sessions
 session_start();
-require 'ooptrying.php';
-echo'index oop';
+//require 'ooptrying.php';
+
 
 //-----------------------------------Cookie setting
 
@@ -153,38 +153,72 @@ function whatIsHappening()
 //---------------------------- your products with their price.
 
 
-$products = [
-    ['name' => 'Club Ham', 'price' => 3.20],
-    ['name' => 'Club Cheese', 'price' => 3],
-    ['name' => 'Club Cheese & Ham', 'price' => 4],
-    ['name' => 'Club Chicken', 'price' => 4],
-    ['name' => 'Club Salmon', 'price' => 5]
-];
+//_________________________ Create class
+class Product {
+    // Properties
+    public $name;
+    public $price;
 
+    // Methods
 
-if (isset ($_GET['food'])) {
-    if ($_GET['food'] == 0) {
-        $food = 0;
-        $products = [
-            ['name' => 'Cola', 'price' => 2],
-            ['name' => 'Fanta', 'price' => 2],
-            ['name' => 'Sprite', 'price' => 2],
-            ['name' => 'Ice-tea', 'price' => 3],
-        ];
-    } elseif ($_GET['food'] == 1) {
-        $food = 1;
-        $products = [
-            ['name' => 'Club Ham', 'price' => 3.20],
-            ['name' => 'Club Cheese', 'price' => 3],
-            ['name' => 'Club Cheese & Ham', 'price' => 4],
-            ['name' => 'Club Chicken', 'price' => 4],
-            ['name' => 'Club Salmon', 'price' => 5]
-        ];
+    function __construct($name, $price) {
+        $this->name = $name;
+        $this->price = $price;
+    }
+
+    function get_name() {
+        return $this->name;
+    }
+
+    function get_price() {
+        return $this->price;
     }
 
 }
 
-$_SESSION['products'] = $products;
+//printIterable($name);
+
+//_________________________ Create objects
+
+
+//________________Sandwiches
+
+$Club_Ham= new Product('Club Ham',3.20);
+$Club_Cheese= new Product('Club Cheese',3);
+$Club_Cheese_Ham= new Product('Club Cheese & Ham',4);
+$Club_Chicken= new Product('Club Chicken',4);
+$Club_Salmon= new Product('Club Salmon',5);
+
+//_________________________ Making array of objects
+$food=array();
+array_push($food,$Club_Ham,$Club_Cheese,$Club_Cheese_Ham,$Club_Chicken,$Club_Salmon);
+var_dump($food);
+
+
+//if (isset ($_GET['food'])) {
+//    if ($_GET['food'] == 0) {
+//        $food = 0;
+//        $products = [
+//            ['name' => 'Cola', 'price' => 2],
+//            ['name' => 'Fanta', 'price' => 2],
+//            ['name' => 'Sprite', 'price' => 2],
+//            ['name' => 'Ice-tea', 'price' => 3],
+//        ];
+//    } elseif ($_GET['food'] == 1) {
+//        $food = 1;
+//        $products = [
+//            ['name' => 'Club Ham', 'price' => 3.20],
+//            ['name' => 'Club Cheese', 'price' => 3],
+//            ['name' => 'Club Cheese & Ham', 'price' => 4],
+//            ['name' => 'Club Chicken', 'price' => 4],
+//            ['name' => 'Club Salmon', 'price' => 5]
+//        ];
+//    }
+//
+//}
+//
+//$_SESSION['products'] = $products;
+
 
 
 //-----------------------------------Set session variable for products

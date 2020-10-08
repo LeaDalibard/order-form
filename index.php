@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 
 //we are going to use session variables so we need to enable sessions
 session_start();
-require 'ooptrying.php';
+
 
 //-----------------------------------Cookie setting
 
