@@ -225,11 +225,9 @@ if (!empty($_SESSION['order'])) {
         foreach ($_SESSION['order'] [$i] as $x => $val) {
             $price+= $val;
         }
-       // $total_order_price+= $price;
     }
-
 }
-
+echo $price;
 $total_price = $price + $delivery_price;
 
 //-----------------------------------SESSION VALUE
@@ -260,7 +258,7 @@ if (isset ($_POST['submit'])) {
             $email_to = $cookie_mail . ", " . constant("restaurant_mail");
             mail( $email_to, "My delivery", $msg);
             //mail('leadalibard@gmail.com', 'test', 'test');
-            $_SESSION['order'] = array();
+            session_unset();
         }
     } else {
         $alert_empty = '<div class="alert alert-danger" role="alert">
