@@ -189,37 +189,35 @@ $Club_Cheese_Ham= new Product('Club Cheese & Ham',4);
 $Club_Chicken= new Product('Club Chicken',4);
 $Club_Salmon= new Product('Club Salmon',5);
 
+//________________Drinks
+
+$Cola= new Product('Cola',2);
+$Fanta= new Product('Fanta',2);
+$Sprite= new Product('Sprite',2);
+$Ice_tea= new Product('Ice-tea',3);
+
 //_________________________ Making array of objects
 $food=array();
 array_push($food,$Club_Ham,$Club_Cheese,$Club_Cheese_Ham,$Club_Chicken,$Club_Salmon);
-foreach ($food as $value){
+$drink=array();
+array_push($drink,$Cola,$Fanta,$Sprite,$Ice_tea);
+
+foreach ($drink as $value){
     echo $value->get_name();
     echo $value->get_price();
 }
+$products =$food;
 
-//if (isset ($_GET['food'])) {
-//    if ($_GET['food'] == 0) {
-//        $food = 0;
-//        $products = [
-//            ['name' => 'Cola', 'price' => 2],
-//            ['name' => 'Fanta', 'price' => 2],
-//            ['name' => 'Sprite', 'price' => 2],
-//            ['name' => 'Ice-tea', 'price' => 3],
-//        ];
-//    } elseif ($_GET['food'] == 1) {
-//        $food = 1;
-//        $products = [
-//            ['name' => 'Club Ham', 'price' => 3.20],
-//            ['name' => 'Club Cheese', 'price' => 3],
-//            ['name' => 'Club Cheese & Ham', 'price' => 4],
-//            ['name' => 'Club Chicken', 'price' => 4],
-//            ['name' => 'Club Salmon', 'price' => 5]
-//        ];
-//    }
-//
-//}
-//
-//$_SESSION['products'] = $products;
+if (isset ($_GET['food'])){
+    if ($_GET['food'] == 0){
+        $products =$drink;
+    }
+}
+elseif ($_GET['food'] == 1){
+    $products =$food;
+}
+
+$_SESSION['products'] = $products;
 
 
 

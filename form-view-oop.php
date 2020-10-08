@@ -72,7 +72,7 @@
         <fieldset>
             <legend>Products</legend>
 
-            <?php foreach ($food as $value): ?>
+            <?php foreach ($products as $value): ?>
                 <label>
                     <input type="checkbox" value="<?php echo $value->get_price() ?>" name="<?php $value->get_name();?>"/> <?php  echo $value->get_name(); ?> -
                     &euro; <?php echo $value->get_price(); ?>
