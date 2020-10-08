@@ -28,6 +28,9 @@ class Product
 
 //_________________________ Create objects
 
+
+//________________Sandwiches
+
 $Club_Ham= new Product();
 $Club_Ham->set_name('Club Ham');
 $Club_Ham->set_price(3.20);
@@ -48,11 +51,21 @@ $Club_Salmon= new Product();
 $Club_Salmon->set_name('Club Salmon');
 $Club_Salmon->set_price(5);
 
+//________________Drinks
 
+$Cola= new Product();
+$Cola->set_name('Cola');
+$Cola->set_price(2);
 
-$products = [
-    ['name' => 'Cola', 'price' => 2],
-    ['name' => 'Fanta', 'price' => 2],
-    ['name' => 'Sprite', 'price' => 2],
-    ['name' => 'Ice-tea', 'price' => 3],
-];
+$Fanta= new Product();
+$Fanta->set_name('Fanta');
+$Fanta->set_price(2);
+
+$Sprite= new Product();
+$Sprite->set_name('Sprite');
+$Sprite->set_price(2);
+
+$Ice_tea= new Product();
+$Ice_tea->set_name('Ice-tea');
+$Ice_tea->set_price(3);
+
