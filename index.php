@@ -9,6 +9,7 @@ error_reporting(E_ALL);
 
 //we are going to use session variables so we need to enable sessions
 session_start();
+//require 'ooptrying.php';
 
 
 //-----------------------------------Cookie setting
@@ -152,42 +153,72 @@ function whatIsHappening()
 //---------------------------- your products with their price.
 
 
-$products = [
-    ['name' => 'Club Ham', 'price' => 3.20],
-    ['name' => 'Club Cheese', 'price' => 3],
-    ['name' => 'Club Cheese & Ham', 'price' => 4],
-    ['name' => 'Club Chicken', 'price' => 4],
-    ['name' => 'Club Salmon', 'price' => 5]
-];
+//_________________________ Create class
+class Product {
+    // Properties
+    public $name;
+    public $price;
 
+    // Methods
 
-if (isset ($_GET['food'])) {
-    if ($_GET['food'] == 0) {
-        $food = 0;
-        $products = [
-            ['name' => 'Cola', 'price' => 2],
-            ['name' => 'Fanta', 'price' => 2],
-            ['name' => 'Sprite', 'price' => 2],
-            ['name' => 'Ice-tea', 'price' => 3],
-        ];
-    } elseif ($_GET['food'] == 1) {
-        $food = 1;
-        $products = [
-            ['name' => 'Club Ham', 'price' => 3.20],
-            ['name' => 'Club Cheese', 'price' => 3],
-            ['name' => 'Club Cheese & Ham', 'price' => 4],
-            ['name' => 'Club Chicken', 'price' => 4],
-            ['name' => 'Club Salmon', 'price' => 5]
-        ];
+    function __construct($name, $price) {
+        $this->name = $name;
+        $this->price = $price;
+    }
+
+    function get_name() {
+        return $this->name;
+    }
+
+    function get_price() {
+        return $this->price;
     }
 
 }
 
+//printIterable($name);
+
+//_________________________ Create objects
+
+
+//________________Sandwiches
+
+$Club_Ham= new Product('Club Ham',3.20);
+$Club_Cheese= new Product('Club Cheese',3);
+$Club_Cheese_Ham= new Product('Club Cheese & Ham',4);
+$Club_Chicken= new Product('Club Chicken',4);
+$Club_Salmon= new Product('Club Salmon',5);
+
+//________________Drinks
+
+$Cola= new Product('Cola',2);
+$Fanta= new Product('Fanta',2);
+$Sprite= new Product('Sprite',2);
+$Ice_tea= new Product('Ice-tea',3);
+
+//_________________________ Making array of objects
+$sandwich=array();
+array_push($sandwich,$Club_Ham,$Club_Cheese,$Club_Cheese_Ham,$Club_Chicken,$Club_Salmon);
+$drink=array();
+array_push($drink,$Cola,$Fanta,$Sprite,$Ice_tea);
+
+
+$products =$sandwich;
+//
+if (isset ($_GET['food'])){
+    if ($_GET['food'] == 0){
+        $products =$drink;
+    }
+elseif ($_GET['food'] == 1){
+    $products =$sandwich;
+}
+}
+
 $_SESSION['products'] = $products;
 
-
 //-----------------------------------Set session variable for products
-
+var_dump($products);
+var_dump($products[0]);
 
 if (isset($_SESSION['order'])) {
     $_SESSION['order'] = $_SESSION['order'];
@@ -195,53 +226,12 @@ if (isset($_SESSION['order'])) {
     $_SESSION['order'] = array();
 }
 
-if (isset($_POST['products'])) {
-    $order = $_SESSION['order'];
-    array_push($order, $_POST['products']);
-    $_SESSION['order'] = $order;
+if (isset($_POST['Club Ham'])){
+    echo "test2";
 }
 
-var_dump($_SESSION['order']);
-$orderRecap = '';
-if (!empty($_SESSION['order'])) {
-    $length = count($_SESSION['order']);
-    for ($i = 0; $i < $length; $i++) {
-        foreach ($_SESSION['order'] [$i] as $x => $x_value) {
-            $orderRecap = $orderRecap . "Order : " . $x . ", Price=" . $x_value . "\n";
-        }
-    }
-}
-echo $orderRecap;
-//-----------------------------------Total revenue counter
 
-if (isset($_POST['express_delivery'])) {
-    $delivery_price = 5;
-} else {
-    $delivery_price = 0;
-}
-$price = 0;
 
-if (!empty($_SESSION['order'])) {
-    for ($i = 0; $i < $length; $i++) {
-        foreach ($_SESSION['order'] [$i] as $x => $val) {
-            $price+= $val;
-        }
-    }
-}
-echo $price;
-$total_price = $price + $delivery_price;
-
-//-----------------------------------SESSION VALUE
-$_SESSION['price'] = $price;
-//$total=$price+(float)$cookie_total;
-if (isset($_COOKIE['cookie_total'])) {
-    $total = (float)$_COOKIE['cookie_total'] + $total_price;
-} else {
-    $total = $total_price;
-    $_COOKIE['cookie_total'] = strval($total);
-}
-
-$cookie_total = strval($total);
 
 //-----------------------------------Define owner of the restaurant mail
 
@@ -251,17 +241,10 @@ define("restaurant_mail", "leadalibard@gmail.com");
 $alert_empty = "";
 $validationMessage = "";
 if (isset ($_POST['submit'])) {
-    if (isset($_POST['products'])) {
         if ($emailForm == "" && $zipcodeForm == "" && $streetnumberForm == "" && $emailErr == "" && $streetErr == "" && $streetnumberErr == "" && $cityErr == "" && $zipcodeErr == "") {
-            $validationMessage = "Your order has been sent. Your command will arrive at : " . $hours_delivered . ":" . $minutes_delivered . ".";
-            $msg = "Thank your for your order.\n\nYour information :\nAdress : " . $cookie_street . ", " . $cookie_number . "\n" . $cookie_zipcode . " " . $cookie_city . "\n\nYour command :\n" . $orderRecap . "\n\nOrder price :" . $price . "€.\nExtra delivery cost :" . $delivery_price . "€." . "\n\nTotal  price :" . $total_price . "€." . "\n\nExpected delivery time :" . $hours_delivered . ":" . $minutes_delivered . ".";
-            $msg = wordwrap($msg, 70);
-            $email_to = $cookie_mail . ", " . constant("restaurant_mail");
-            echo $msg;
-            mail( $email_to, "My delivery", $msg);
+            $validationMessage = "Your order has been sent. Your command will arrive at : ";
             //mail('leadalibard@gmail.com', 'test', 'test');
             session_unset();
-        }
     } else {
         $alert_empty = '<div class="alert alert-danger" role="alert">
            Your order is empty!
@@ -282,7 +265,7 @@ setcookie('cookie_city', $cookie_city, time() + 3600, '/', $domain, false);
 setcookie('cookie_total', $cookie_total, time() + 3600, '/', $domain, false);
 
 
-require 'form-view.php';
+require 'form-view-oop.php';
 
 
 
