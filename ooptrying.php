@@ -46,6 +46,3 @@ $Ice_tea= new Product('Ice-tea',3);
 
 
 
-echo $Cola->get_price();
-echo $Cola->get_name();
-
