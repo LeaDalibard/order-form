@@ -192,8 +192,10 @@ $Club_Salmon= new Product('Club Salmon',5);
 //_________________________ Making array of objects
 $food=array();
 array_push($food,$Club_Ham,$Club_Cheese,$Club_Cheese_Ham,$Club_Chicken,$Club_Salmon);
-var_dump($food);
-
+foreach ($food as $value){
+    echo $value->get_name();
+    echo $value->get_price();
+}
 
 //if (isset ($_GET['food'])) {
 //    if ($_GET['food'] == 0) {

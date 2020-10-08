@@ -24,6 +24,8 @@ class Product
         return $this->price;
     }
 
+
+
 }
 
 //_________________________ Create objects

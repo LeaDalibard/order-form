@@ -72,10 +72,10 @@
         <fieldset>
             <legend>Products</legend>
 
-            <?php foreach ($products AS $i => $product): ?>
+            <?php foreach ($food as $value): ?>
                 <label>
-                    <input type="checkbox" value="<?php echo $product['price'] ?>" name="products[<?php echo $product['name'] ?>]"/> <?php echo $product['name'] ?> -
-                    &euro; <?php echo number_format($product['price'], 2) ?>
+                    <input type="checkbox" value="<?php echo $value->get_price() ?>" name="<?php $value->get_name();?>"/> <?php  echo $value->get_name(); ?> -
+                    &euro; <?php echo $value->get_price(); ?>
                 </label><br />
             <?php endforeach; ?>
         </fieldset>
